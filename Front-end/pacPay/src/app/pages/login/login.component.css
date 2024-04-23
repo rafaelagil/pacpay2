@@ -9,7 +9,7 @@ main {
 }
 .center-container {
   font-family: var(--font-principal);
-  width: 44rem;
+  width: 42rem;
   height: 44rem;
   background-color: #f9f9f9;
   font-size: 1.6rem;
