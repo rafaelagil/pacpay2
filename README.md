@@ -93,7 +93,7 @@ Essas exclusões podem ser úteis para ajustar a análise às necessidades espec
 
 Mais detalhes e exemplos em: https://docs.sonarqube.org/latest/project-administration/narrowing-the-focus/
 
-#Tipo de Análise
+# Tipo de Análise
 
 Mesmo que você não possua uma esteira de entrega contínua é possível analisar o código, desde que ele esteja atualizado na sua máquina.
 Isso significa que, mesmo que você não esteja usando uma ferramenta de integração contínua (CI) para automatizar o processo de análise do código-fonte em cada alteração ou commit, você ainda pode executar análises estáticas no seu código localmente, desde que você tenha uma cópia atualizada do código na sua máquina.
@@ -109,21 +109,21 @@ MSBuild para .NET Core 2.0+
 SonarScanner para outros
 
 
-#MSBuild .NET Framework 4.6+
+# MSBuild .NET Framework 4.6+
 
-1.Faça o downloaddo SonarScanner para MSBuild .Net Framework 4.6+
-2.Descompacte-o em c:\sonarscanner-msbuild, por exemplo
-3.No PowerShell, acesse o diretório onde consta a sua aplicação
-4.Execute os comandos abaixo para executar a análise substituindo os &lt;parâmetros&gt; necessários:
+1. Faça o downloaddo SonarScanner para MSBuild .Net Framework 4.6+
+2. Descompacte-o em c:\sonarscanner-msbuild, por exemplo
+3. No PowerShell, acesse o diretório onde consta a sua aplicação
+4. Execute os comandos abaixo para executar a análise substituindo os &lt;parâmetros&gt; necessários:
 Begin : Conecta-se ao MSBuild, faz o download dos perfis de qualidade do SonarQube, as configurações e prepara seu projeto para a análise.
 &lt;diretório do SonarScanner.MSBuild.exe&gt; begin /k:&lt;"chave-do-projeto"&gt; /n:"Nome do projeto" /d:sonar.host.url=&lt;url do server que será gerada a análise&gt;
 
-###obs:
-1.Build : Entre as etapas "begin" e "end", você precisa construir seu projeto, executar testes e gerar dados de cobertura de código. C:\Arquivos de Programas (x86)\MSBuild\14.0\Bin\MSBuild.exe &lt;diretório da solution.sln&gt; /t:Rebuild
-2.End : Ele limpa os hooks do MSBuild, coleta os dados de análise gerados pela construção, os resultados do teste, a cobertura do código e, em seguida, carrega tudo para o SonarQube.
+### obs:
+1. Build : Entre as etapas "begin" e "end", você precisa construir seu projeto, executar testes e gerar dados de cobertura de código. C:\Arquivos de Programas (x86)\MSBuild\14.0\Bin\MSBuild.exe &lt;diretório da solution.sln&gt; /t:Rebuild
+2. End : Ele limpa os hooks do MSBuild, coleta os dados de análise gerados pela construção, os resultados do teste, a cobertura do código e, em seguida, carrega tudo para o SonarQube.
 &lt;diretório do SonarScanner.MSBuild.exe&gt; end
 
-#MSBuild .NET Core 2.0+
+# MSBuild .NET Core 2.0+
 1.Faça o downloaddo SonarScanner para MSBuild .Net Core 2.0+
 2.Descompacte-o em c:\sonarscanner-msbuild, por exemplo
 3.No PowerShell, acesse o diretório onde consta a sua aplicação
@@ -132,14 +132,14 @@ Begin : Conecta-se ao MSBuild, faz o download dos perfis de qualidade do SonarQu
 Begin : Conecta-se ao MSBuild, faz o download dos perfis de qualidade do SonarQube, as configurações e prepara seu projeto para a análise.
 dotnet &lt;diretório do SonarScanner.MSBuild.dll&gt; begin /k:"chave-do-projeto" /n:"Nome do projeto" /d:sonar.host.url=&lt;url do server que será gerada a análise&gt;
 
-###obs:
-1.Build : Entre as etapas "begin" e "end", você precisa construir seu projeto, executar testes e gerar dados de cobertura de código.
-2.dotnet build &lt;diretório da solution.sln&gt;
+### obs:
+1. Build : Entre as etapas "begin" e "end", você precisa construir seu projeto, executar testes e gerar dados de cobertura de código.
+2. dotnet build &lt;diretório da solution.sln&gt;
 
 End : Ele limpa os hooks do MSBuild, coleta os dados de análise gerados pela construção, os resultados do teste, a cobertura do código e, em seguida, carrega tudo para o SonarQube.
 dotnet &lt;diretório do SonarScanner.MSBuild.dll&gt; end
 
-###SonarScanner
+### SonarScanner
 1. Faça o download do SonarScanner
 
 2. Descompacte-o em c:\sonarscanner, por exemplo
@@ -154,14 +154,18 @@ dotnet &lt;diretório do SonarScanner.MSBuild.dll&gt; end
 
 7. Crie um arquivo de configuração no diretório raiz do projeto: sonar-project.properties
 
-sonar-project.properties
+### sonar-project.properties
 
-# SonarQube serversonar.host.url=http://qa-quali2012:9000# must be unique in a given SonarQube instancesonar.projectKey=my:project# this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.sonar.projectName=My projectsonar.projectVersion=1.0# Path is relative to the sonar-project.properties file. Replace "&quot; by "/" on Windows.# This property is optional if sonar.modules is set. sonar.sources=.# Encoding of the source code. Default is default system encoding#sonar.sourceEncoding=UTF-8
+## EXEMPLO
+
+#dotnet sonarscanner begin /k:"projeto_chave" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="seu_token_de_autenticação"
+dotnet build
+dotnet sonarscanner end /d:sonar.login="seu_token_de_autenticação"
 
 * Execute o seguinte comando no diretório base do projeto para ativar a análise:
 sonar-scanner
 
-#SonarLint
+# SonarLint
 
 O SonarLint é uma extensão IDE que ajuda a detectar e corrigir problemas de qualidade enquanto você escreve o código.
 
@@ -169,13 +173,14 @@ Como um verificador ortográfico, o SonarLint elimina falhas para que possam ser
 
 Acesse https://www.sonarlint.org/ e escolha a extensão para sua IDE favorita.
 
-#Instalação Java
+# Instalação Java
 
 No PowerShell verifique se possui o jdk 17 instalado
 
 java -version
 
 Caso não possua, efetue o download
+
 Execute o instalador do Java. Anote o diretório de instalação, pois você precisará disso mais tarde.
 Quando a instalação do Java estiver concluída, verifique se a variável de ambiente JAVA_HOME foi configurada corretamente.
 Abra um prompt de comando, digite
@@ -206,7 +211,7 @@ Clique em OK e Aplicar alterações quando solicitado
 
 Você precisará fechar e abrir novamente qualquer janela de comando que estava aberta antes de fazer estas alterações, já que não há como recarregar variáveis de ambiente de um prompt de comando ativo. Se as alterações não entrarem em vigor depois de abrir novamente a janela de comando, reinicie o Windows.
 
-Esse documento foi baseado na documentação oficial do SonarQube que pode ser encontrada em: https://docs.sonarqube.org/latest/
+Esse documento foi baseado na documentação oficial do SonarQube que pode ser encontrada em: https://docs.sonarqube.org/latest
 
 
 
