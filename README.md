@@ -1,9 +1,9 @@
 Aproveitamento de código para Analise SONARQUBE
 
-## Obejetivo
+# Obejetivo
 Criar um projeto que atenda as necessidades de negocio utilizando análise de métricas do SONARQUBE
 
-## SonarQube Arquitetura
+# SonarQube Arquitetura
 Suporta diversas linguagens
 
 É possível utilizar um ou mais SonarScanners para análise dos projetos e para integração com servidores de Integração Contínua
@@ -26,7 +26,9 @@ Os desenvolvedores revisam e discutem os seus problemas, e traçam uma estratég
 
 Utilizando APIs do sonar é possível extrair dados, gerar relatórios e automatizar configurações.
 
-Configuração
+## Configuração
+
+
 Você pode fazer a análise do seu projeto utilizando o SonarQube já disponível nos nossos servidores, ou pode subir uma instância local utilizando ou não o docker, para fazer uma análise prévia.
 
 Sonar Server
@@ -35,7 +37,7 @@ Para visualizar os projetos que já estão rodando ou adicionar seu projeto que 
 
 Sonar Local
 
-Para subir uma instância com Docker :
+## Para subir uma instância com Docker :
 
 No PowerShell verifique se possui o Docker instalado
 docker -v
@@ -63,16 +65,17 @@ Após definir se seu projeto será analisado localmente ou no servidor já dispo
 Mas antes, vamos entender alguns dos parâmetros mais utilizados:
 
 Chave	Descrição	Padrão	Obrigatório
-sonar.host.url	URL do servidor	http://localhost:9000	sim
-sonar.projectKey	A chave exclusiva do projeto. Os caracteres permitidos são: letras, números, -, _,. e:		sim
-sonar.projectName	Nome do projeto que será exibido na interface da web		não
-sonar.login	O token de autenticação de um usuário do SonarQube com a permissão executar análise no projeto.		não
-sonar.exclusions	Excluir arquivos e/ou diretórios da análise	Veja exemplos abaixo:	não
+|sonar.host.url	URL do servidor|	http://localhost:9000	|sim
+|sonar.projectKey	| A chave exclusiva do projeto. Os caracteres permitidos são: |letras, números, -, _,. e:	|	sim
+|sonar.projectName| Nome do projeto que será exibido na interface da web| não
+|sonar.login	O token de autenticação de um usuário do SonarQube com a permissão executar análise no projeto.|		não
+|sonar.exclusions	Excluir arquivos e/ou diretórios da análise	Veja exemplos abaixo:|	não
+
 Obs1.: Para compartilhar os parâmetros de análise entre um subconjunto de projetos, configure os valores no arquivo SonarQube.Analysis.xml encontrado no diretório do SonarScanner.
 
 Obs 2.: Para ver mais parâmetros que podem ser utilizados, acesse a documentação oficial em: https://docs.sonarqube.org/latest/analysis/analysis-parameters/
 
-sonar.exclusions Exemplos:
+#sonar.exclusions Exemplos:
 
 Excluir todas as classes terminadas por "Bean"
 sonar.exclusions=**/* Bean.java, **/*DTO.java
@@ -86,71 +89,90 @@ sonar.exclusions=site/dist/**
 Excluir todos os arquivos no diretório e subdiretórios de "bank" cuja extensão é .js
 sonar.exclusions=bank/**/*.js
 
+Essas exclusões podem ser úteis para ajustar a análise às necessidades específicas do projeto e para evitar análises desnecessárias de partes do código que não são relevantes para o contexto atual. Essas exclusões ajudam a focar a análise nas partes relevantes do código e a evitar falsos positivos.
+
 Mais detalhes e exemplos em: https://docs.sonarqube.org/latest/project-administration/narrowing-the-focus/
 
+#Tipo de Análise
+
 Mesmo que você não possua uma esteira de entrega contínua é possível analisar o código, desde que ele esteja atualizado na sua máquina.
+Isso significa que, mesmo que você não esteja usando uma ferramenta de integração contínua (CI) para automatizar o processo de análise do código-fonte em cada alteração ou commit, você ainda pode executar análises estáticas no seu código localmente, desde que você tenha uma cópia atualizada do código na sua máquina.
+
+Normalmente, em uma esteira de entrega contínua, o código é automaticamente analisado sempre que há uma nova alteração no repositório de código. Isso é útil para identificar problemas de qualidade do código o mais rápido possível.
+
+No entanto, mesmo sem essa automação, você pode realizar análises estáticas do código localmente para identificar problemas de qualidade, como vulnerabilidades de segurança, bugs potenciais, má prática de codificação, entre outros. Isso é especialmente útil durante o desenvolvimento, pois permite que você corrija problemas enquanto trabalha no código, em vez de esperar até que seja enviado para o repositório central.
 
 Para fazer isso, você deve instalar e configurar o scanner mais adequado às suas necessidades:
 
 MSBuild para .NET Framework 4.6+
 MSBuild para .NET Core 2.0+
 SonarScanner para outros
-MSBuild .NET Framework 4.6+
-Faça o downloaddo SonarScanner para MSBuild .Net Framework 4.6+
-Descompacte-o em c:\sonarscanner-msbuild, por exemplo
-No PowerShell, acesse o diretório onde consta a sua aplicação
-Execute os comandos abaixo para executar a análise substituindo os &lt;parâmetros&gt; necessários:
+
+
+#MSBuild .NET Framework 4.6+
+
+1.Faça o downloaddo SonarScanner para MSBuild .Net Framework 4.6+
+2.Descompacte-o em c:\sonarscanner-msbuild, por exemplo
+3.No PowerShell, acesse o diretório onde consta a sua aplicação
+4.Execute os comandos abaixo para executar a análise substituindo os &lt;parâmetros&gt; necessários:
 Begin : Conecta-se ao MSBuild, faz o download dos perfis de qualidade do SonarQube, as configurações e prepara seu projeto para a análise.
 &lt;diretório do SonarScanner.MSBuild.exe&gt; begin /k:&lt;"chave-do-projeto"&gt; /n:"Nome do projeto" /d:sonar.host.url=&lt;url do server que será gerada a análise&gt;
 
-Build : Entre as etapas "begin" e "end", você precisa construir seu projeto, executar testes e gerar dados de cobertura de código. C:\Arquivos de Programas (x86)\MSBuild\14.0\Bin\MSBuild.exe &lt;diretório da solution.sln&gt; /t:Rebuild
-End : Ele limpa os hooks do MSBuild, coleta os dados de análise gerados pela construção, os resultados do teste, a cobertura do código e, em seguida, carrega tudo para o SonarQube.
+###obs:
+1.Build : Entre as etapas "begin" e "end", você precisa construir seu projeto, executar testes e gerar dados de cobertura de código. C:\Arquivos de Programas (x86)\MSBuild\14.0\Bin\MSBuild.exe &lt;diretório da solution.sln&gt; /t:Rebuild
+2.End : Ele limpa os hooks do MSBuild, coleta os dados de análise gerados pela construção, os resultados do teste, a cobertura do código e, em seguida, carrega tudo para o SonarQube.
 &lt;diretório do SonarScanner.MSBuild.exe&gt; end
 
-MSBuild .NET Core 2.0+
-Faça o downloaddo SonarScanner para MSBuild .Net Core 2.0+
-Descompacte-o em c:\sonarscanner-msbuild, por exemplo
-No PowerShell, acesse o diretório onde consta a sua aplicação
-Execute os comandos abaixo para executar a análise substituindo os &lt;parâmetros&gt; necessários:
+#MSBuild .NET Core 2.0+
+1.Faça o downloaddo SonarScanner para MSBuild .Net Core 2.0+
+2.Descompacte-o em c:\sonarscanner-msbuild, por exemplo
+3.No PowerShell, acesse o diretório onde consta a sua aplicação
+4.Execute os comandos abaixo para executar a análise substituindo os &lt;parâmetros&gt; necessários:
+
 Begin : Conecta-se ao MSBuild, faz o download dos perfis de qualidade do SonarQube, as configurações e prepara seu projeto para a análise.
 dotnet &lt;diretório do SonarScanner.MSBuild.dll&gt; begin /k:"chave-do-projeto" /n:"Nome do projeto" /d:sonar.host.url=&lt;url do server que será gerada a análise&gt;
 
-Build : Entre as etapas "begin" e "end", você precisa construir seu projeto, executar testes e gerar dados de cobertura de código.
-dotnet build &lt;diretório da solution.sln&gt;
+###obs:
+1.Build : Entre as etapas "begin" e "end", você precisa construir seu projeto, executar testes e gerar dados de cobertura de código.
+2.dotnet build &lt;diretório da solution.sln&gt;
 
 End : Ele limpa os hooks do MSBuild, coleta os dados de análise gerados pela construção, os resultados do teste, a cobertura do código e, em seguida, carrega tudo para o SonarQube.
 dotnet &lt;diretório do SonarScanner.MSBuild.dll&gt; end
 
-SonarScanner
-Faça o download do SonarScanner
+###SonarScanner
+1. Faça o download do SonarScanner
 
-Descompacte-o em c:\sonarscanner, por exemplo
+2. Descompacte-o em c:\sonarscanner, por exemplo
 
-Atualize as configurações globais para apontar para o seu servidor SonarQube editando &lt;diretorio_instalacao&gt;/conf/sonar-scanner.properties:
+3. Atualize as configurações globais para apontar para o seu servidor SonarQube editando &lt;diretorio_instalacao&gt;/conf/sonar-scanner.properties:
 
-Adicione o diretório &lt;diretorio_instalacao&gt;/bin ao seu path.
+4. Adicione o diretório &lt;diretorio_instalacao&gt;/bin ao seu path.
 
-Para configurar path: - ■■ Localize o diretório de instalação do SonarScanner - ■■** Windows 10 - Pesquise por Variáveis de Ambiente e selecione Editar as variáveis de ambiente do sistema** - ■■ Clique no botão Variáveis de ambiente - ■■ Sob Variáveis do sistema , encontre Path e clique em Editar - ■■ Clique em Novo e adicione o diretório &lt;diretorio_instalacao&gt;/bin - ■■ Clique em OK e Aplicar alterações quando solicitado
+5. Para configurar path: - ■■ Localize o diretório de instalação do SonarScanner - ■■** Windows 10 - Pesquise por Variáveis de Ambiente e selecione Editar as variáveis de ambiente do sistema** - ■■ Clique no botão Variáveis de ambiente - ■■ Sob Variáveis do sistema , encontre Path e clique em Editar - ■■ Clique em Novo e adicione o diretório &lt;diretorio_instalacao&gt;/bin - ■■ Clique em OK e Aplicar alterações quando solicitado
 
-Você pode verificar sua instalação abrindo um novo shell e executando o comando sonar-scanner -h (na plataforma Windows, o comando é sonar-scanner.bat -h). Você deve obter uma saída assim:
+6. Você pode verificar sua instalação abrindo um novo shell e executando o comando sonar-scanner -h (na plataforma Windows, o comando é sonar-scanner.bat -h). Você deve obter uma saída assim:
 
-Crie um arquivo de configuração no diretório raiz do projeto: sonar-project.properties
+7. Crie um arquivo de configuração no diretório raiz do projeto: sonar-project.properties
 
 sonar-project.properties
 
 # SonarQube serversonar.host.url=http://qa-quali2012:9000# must be unique in a given SonarQube instancesonar.projectKey=my:project# this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.sonar.projectName=My projectsonar.projectVersion=1.0# Path is relative to the sonar-project.properties file. Replace "&quot; by "/" on Windows.# This property is optional if sonar.modules is set. sonar.sources=.# Encoding of the source code. Default is default system encoding#sonar.sourceEncoding=UTF-8
-Execute o seguinte comando no diretório base do projeto para ativar a análise:
+
+* Execute o seguinte comando no diretório base do projeto para ativar a análise:
 sonar-scanner
 
-SonarLint
+#SonarLint
+
 O SonarLint é uma extensão IDE que ajuda a detectar e corrigir problemas de qualidade enquanto você escreve o código.
 
 Como um verificador ortográfico, o SonarLint elimina falhas para que possam ser corrigidas antes de confirmar o código.
 
 Acesse https://www.sonarlint.org/ e escolha a extensão para sua IDE favorita.
 
-Instalação Java
-No PowerShell verifique se possui o jdk 1.8 instalado
+#Instalação Java
+
+No PowerShell verifique se possui o jdk 17 instalado
+
 java -version
 
 Caso não possua, efetue o download
@@ -168,9 +190,9 @@ Para configurar a variável JAVA_HOME:
 
 Localize o diretório de instalação Java
 
-Se você não alterou o caminho durante a instalação, ele será parecido com isso C:\Program Files\Java\jdk1.8.0_65
+Se você não alterou o caminho durante a instalação, ele será parecido com isso C:\Program Files\Java\17.0.10
 
-Windows 10 - Pesquise por Variáveis de Ambiente e selecione Editar as variáveis de ambiente do sistema
+Windows 11 - Pesquise por Variáveis de Ambiente e selecione Editar as variáveis de ambiente do sistema
 
 Clique no botão Variáveis de ambiente
 
