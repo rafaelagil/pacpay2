@@ -31,9 +31,7 @@ Utilizando APIs do sonar é possível extrair dados, gerar relatórios e automat
 
 Você pode fazer a análise do seu projeto utilizando o SonarQube já disponível nos nossos servidores, ou pode subir uma instância local utilizando ou não o docker, para fazer uma análise prévia.
 
-Sonar Server
 
-Para visualizar os projetos que já estão rodando ou adicionar seu projeto que está no TFS acesse: http://qa-quali2012:9000/ (SonarQube 6.7 - Stable)
 
 Sonar Local
 
@@ -210,6 +208,50 @@ No campo Valor da variável , insira o seu caminho da instalação do JDK
 Clique em OK e Aplicar alterações quando solicitado
 
 Você precisará fechar e abrir novamente qualquer janela de comando que estava aberta antes de fazer estas alterações, já que não há como recarregar variáveis de ambiente de um prompt de comando ativo. Se as alterações não entrarem em vigor depois de abrir novamente a janela de comando, reinicie o Windows.
+
+
+### PRINCIPAIS MÉTRICAS SONARQUBE
+
+## Quality Profiles
+
+Os Quality Profiles são funcionalidades bastante importantes para a evolução de qualidade. Com eles, é possível criar limites de regras ativas de forma customizada e realizar etapas de evolução dessas regras por projeto, possibilitando sua continuidade.
+
+É uma configuração que define um conjunto de regras e parâmetros para análise estática de código.
+
+Esses perfis são usados para garantir que o código-fonte de um projeto atenda a determinados padrões de qualidade, seguindo boas práticas de programação, evitando bugs comuns e vulnerabilidades de segurança. Eles podem incluir regras para métricas de código, como complexidade ciclomática, cobertura de testes, conformidade com padrões de codificação e detecção de vulnerabilidades conhecidas.
+
+Os Quality Profiles são altamente personalizáveis, permitindo que as equipes de desenvolvimento adaptem as regras de acordo com as necessidades específicas de seus projetos e padrões de codificação internos. Isso ajuda a garantir consistência e qualidade no código-fonte ao longo do tempo.
+
+
+## Quality Gates
+
+Já os Quality Gates definem metas de qualidade que o projeto deverá superar para se tornar apto a passar pelo gate. Basicamente, o projeto deve atender às métricas baseadas nas regras ativas criadas pelo quality profile usado pelo projeto. É uma etapa de extrema relevância para a estrutura de confiabilidade.
+
+São critérios definidos para avaliar a qualidade do código-fonte de um projeto durante seu ciclo de desenvolvimento. Eles são uma parte essencial das práticas de integração contínua e entrega contínua (CI/CD), onde o código é frequentemente integrado e testado automaticamente.
+
+Os Quality Gates são usados para determinar se um build ou uma versão de software atende aos padrões de qualidade exigidos antes de serem considerados prontos para implantação. Eles podem incluir critérios relacionados à qualidade do código, como cobertura de testes, conformidade com padrões de codificação, ausência de vulnerabilidades de segurança conhecidas, complexidade do código, entre outros.
+
+Quando um build ou versão do software é submetido a um Quality Gate, ele passa por uma série de verificações automatizadas. Se o código atender a todos os critérios definidos pelo Quality Gate, ele é considerado aprovado e pode prosseguir para implantação. Caso contrário, se alguma das condições não for atendida, o build pode ser marcado como falha e exigir intervenção manual para correção dos problemas identificados.
+
+Os Quality Gates ajudam a garantir que apenas código de alta qualidade e funcionalmente seguro seja implantado em produção, reduzindo o risco de problemas e falhas no software em operação. Eles também promovem a consistência e a conformidade com os padrões de qualidade estabelecidos pela equipe de desenvolvimento.
+
+## Quality Profiles
+
+São funcionalidades bastante importantes para a evolução de qualidade. Com eles, é possível criar limites de regras ativas de forma customizada e realizar etapas de evolução dessas regras por projeto, possibilitando sua continuidade.
+São conjuntos de regras e configurações utilizadas em ferramentas de análise estática de código para avaliar a qualidade e a conformidade do código-fonte com padrões específicos. 
+Esses perfis podem incluir uma variedade de regras e métricas para avaliar diferentes aspectos do código, como legibilidade, eficiência, segurança e conformidade com padrões de codificação. Por exemplo, um Quality Profile pode conter regras para detectar código duplicado, complexidade excessiva, vulnerabilidades de segurança conhecidas, falta de documentação ou não conformidade com convenções de nomenclatura.
+
+Os Quality Profiles são altamente configuráveis, permitindo que as equipes de desenvolvimento personalizem as regras de acordo com as necessidades e padrões específicos de seus projetos. Isso ajuda a manter um código-fonte consistente, de alta qualidade e de fácil manutenção ao longo do tempo.
+
+Ao analisar o código-fonte durante o desenvolvimento, as ferramentas de análise estática, como o SonarQube, aplicam as regras definidas nos Quality Profiles e fornecem feedback aos desenvolvedores sobre áreas que precisam ser melhoradas para garantir a qualidade e a segurança do código. Isso permite que as equipes identifiquem e corrijam problemas de forma proativa, antes que eles se tornem problemas maiores ou afetem a funcionalidade do software em produção.
+
+
+
+
+
+
+
+
 
 Esse documento foi baseado na documentação oficial do SonarQube que pode ser encontrada em: https://docs.sonarqube.org/latest
 
